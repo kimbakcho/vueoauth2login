@@ -3,7 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import RedirectPage from '../views/RedirectPage.vue'
 import Preference from '../../src/Preference'
-
+import RedirectChildPage from '../views/RedirectChildPage.vue'
 
 Vue.use(VueRouter)
 
@@ -35,7 +35,14 @@ const routes: Array<RouteConfig> = [
       accessTokenKey: Preference.accessTokenKey,
       reFreshTokenKey: Preference.reFreshTokenKey,
       state: Preference.state
-    })
+    }),
+    children:[
+      {
+        path:"ChildTest",
+        name: "RedirectChildPage",
+        component: RedirectChildPage
+      }
+    ]
   }
 ]
 

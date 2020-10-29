@@ -1,6 +1,6 @@
 <template>
   <div>
-    테스트 리디렉션 페이지
+    <router-view></router-view>
   </div>
 </template>
 

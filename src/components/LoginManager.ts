@@ -9,14 +9,20 @@ export default class LoginManager {
     loginPageUrl: string;
     oAuth2ClientInfo: OAuth2ClientInfo;
     reFreshTokenUrl: string;
+    reFreshTokenLoopTime: number;
     private loginManagerListeners: LoginManagerListener[] = [];
 
-
-    constructor(tokenManager: TokenManager,loginPageUrl: string,oAuth2ClientInfo: OAuth2ClientInfo,reFreshTokenUrl: string) {
+    constructor(tokenManager: TokenManager,
+                loginPageUrl: string,
+                oAuth2ClientInfo: OAuth2ClientInfo,
+                reFreshTokenUrl: string,
+                reFreshTokenLoopTime: number
+                ) {
         this.tokenManager = tokenManager;
         this.oAuth2ClientInfo = oAuth2ClientInfo;
         this.loginPageUrl = loginPageUrl;
         this.reFreshTokenUrl = reFreshTokenUrl;
+        this.reFreshTokenLoopTime = reFreshTokenLoopTime
     }
 
     get isLogin(): boolean{
@@ -53,7 +59,7 @@ export default class LoginManager {
         if(this.isLogin && this.tokenManager.hasReFreshTokenInLocalStore()){
             await this.tokenManager.updateAccessTokenWithReFreshToken(this.reFreshTokenUrl);
             this._onLoginManagerListenersLogin();
-            ReFreshTokenSch.start(this.reFreshTokenUrl,6400000,this.tokenManager);
+            ReFreshTokenSch.start(this.reFreshTokenUrl,this.reFreshTokenLoopTime,this.tokenManager);
         }else {
             ReFreshTokenSch.stop();
         }
