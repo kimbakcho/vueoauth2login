@@ -9,7 +9,7 @@ export default class Preference {
     static clientId = "resource";
 
     static reDirectUrl= process.env.NODE_ENV === 'production'
-        ? "http://10.20.10.114:8080/authComponent/RedirectPage"
+        ? "http://10.20.10.114:8080/authComponent/RedirectPage/ChildTest"
         : "http://localhost:8080/RedirectPage/ChildTest";
 
     static routerPushPage = "/";

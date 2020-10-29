@@ -12,12 +12,16 @@ oAuth2 with SPA(vue)
 
 `router mode need to set history mode`
 
+RedirectPageChild is customPage 
+
+
 ```
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
 import Preference from "@/Preference";
 import {RedirectPage} from "vueoauth2login";
+import RedirectPageChild from "@/views/RedirectPageChild.vue";
 
 Vue.use(VueRouter);
 
@@ -46,7 +50,14 @@ const routes: Array<RouteConfig> = [
       scope: Preference.scope,
       state: Preference.state,
       reFreshTokenTimeout: Preference.reFreshTokenTimeout
-    })
+    }),
+    children:[
+      {
+        path:"child",
+        name:"child",
+        component: RedirectPageChild,
+      }
+    ]
   },
   {
     path: "/about",
