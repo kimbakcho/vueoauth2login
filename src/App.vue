@@ -32,20 +32,21 @@ import OAuth2ClientInfo from "@/components/OAuth2ClientInfo";
 import Preference from "@/Preference";
 import LoginManagerListener from "@/components/LoginManagerListener";
 import TokenManagerListener from "@/components/TokenManagerListener";
+import LoginManagerMakeUrl from "@/components/LoginManagerMakeUrl";
 
 @Component
-export default class App extends Vue implements LoginManagerListener,TokenManagerListener{
+export default class App extends Vue implements LoginManagerListener, TokenManagerListener, LoginManagerMakeUrl {
 
   oAuth2ClientInfo = new OAuth2ClientInfo(Preference.clientId, Preference.reDirectUrl
       , Preference.scope, Preference.state);
 
   loginManager!: LoginManager;
 
-  async created(){
-    const tokenManager = new TokenManager(Preference.accessTokenKey,Preference.reFreshTokenKey);
+  async created() {
+    const tokenManager = new TokenManager(Preference.accessTokenKey, Preference.reFreshTokenKey);
     tokenManager.addListeners(this);
-    this.loginManager = new LoginManager(tokenManager ,
-        Preference.loginPageUrl, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,Number(Preference.reFreshTokenTimeout));
+    this.loginManager = new LoginManager(tokenManager,
+        this, this.oAuth2ClientInfo, Preference.reFreshTokenUrl, Number(Preference.reFreshTokenTimeout));
     this.loginManager.addListeners(this);
     await this.loginManager.init();
   }
@@ -58,6 +59,22 @@ export default class App extends Vue implements LoginManagerListener,TokenManage
     this.loginManager.logout();
 
     location.reload();
+  }
+
+  makeUrl(oAuth2ClientInfo: OAuth2ClientInfo): string {
+    let scope = ""
+    this.oAuth2ClientInfo.scope.forEach((x => {
+      scope += `${x}+`
+    }));
+
+    scope = scope.substring(0, scope.length - 1);
+
+    return `${Preference.loginPageUrl}?` +
+        `clientId=${this.oAuth2ClientInfo.clientId}` +
+        `&redirectUri=${this.oAuth2ClientInfo.reDirectionUrl}` +
+        `&scope=${scope}` +
+        `&state=${this.oAuth2ClientInfo.state}`
+
   }
 
   onAccessToken(accessToken: string): void {

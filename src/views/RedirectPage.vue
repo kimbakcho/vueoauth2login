@@ -10,10 +10,12 @@ import AccessTokenWithCode from '../components/AccessToken/AccessTokenWithCode';
 import TokenManager from '../components/TokenManager';
 import OAuth2ClientInfo from '../components/OAuth2ClientInfo';
 import LoginManager from '../components/LoginManager';
+import LoginManagerMakeUrl from "../components/LoginManagerMakeUrl";
 
 
 @Component
-export default class RedirectPage extends Vue {
+export default class RedirectPage extends Vue implements LoginManagerMakeUrl{
+
 
   @Prop(String)
   authUrl!: string;
@@ -69,10 +71,14 @@ export default class RedirectPage extends Vue {
     }
     const oAuth2ClientInfo = new OAuth2ClientInfo(this.clientId, this.reDirectUrl
         , this.scope, this.state);
-    const loginManager = new LoginManager(tokenManager, this.loginPageUrl,
+    const loginManager = new LoginManager(tokenManager,this,
         oAuth2ClientInfo, this.reFreshTokenUrl,Number(this.reFreshTokenTimeout));
     await loginManager.init();
     await this.$router.push({path: this.routerPushPage});
+  }
+
+  makeUrl(oAuth2ClientInfo: OAuth2ClientInfo): string {
+    throw new Error("here Redirection Page can't impl");
   }
 
 }
