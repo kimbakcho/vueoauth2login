@@ -72,6 +72,7 @@ export default class RedirectPage extends Vue implements LoginManagerMakeUrl{
         oAuth2ClientInfo, this.reFreshTokenUrl,Number(this.reFreshTokenTimeout));
     await loginManager.init();
     await this.$router.push({path: this.routerPushPage});
+    location.reload();
   }
 
   makeUrl(oAuth2ClientInfo: OAuth2ClientInfo): string {

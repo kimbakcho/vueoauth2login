@@ -1,8 +1,8 @@
 {
   "name": "vueoauth2login",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "private": false,
-  "main": "dist/vueoauth2login.common.js",
+  "main": "src/moduleIndex.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
