@@ -17,5 +17,6 @@ export default class Preference {
     static reFreshTokenKey = "wRefreshToken";
     static scope = ["message.read","message.write"];
     static state = "123";
+    static reFreshTokenTimeout = "6300000"
 
 }

@@ -34,7 +34,8 @@ const routes: Array<RouteConfig> = [
       routerPushPage: Preference.routerPushPage,
       accessTokenKey: Preference.accessTokenKey,
       reFreshTokenKey: Preference.reFreshTokenKey,
-      state: Preference.state
+      state: Preference.state,
+      reFreshTokenTimeout: Preference.reFreshTokenTimeout
     }),
     children:[
       {

@@ -44,9 +44,8 @@ export default class App extends Vue implements LoginManagerListener,TokenManage
   async created(){
     const tokenManager = new TokenManager(Preference.accessTokenKey,Preference.reFreshTokenKey);
     tokenManager.addListeners(this);
-    const reFreshTokenLoopTime = 6400000;
     this.loginManager = new LoginManager(tokenManager ,
-        Preference.loginPageUrl, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,reFreshTokenLoopTime);
+        Preference.loginPageUrl, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,Number(Preference.reFreshTokenTimeout));
     this.loginManager.addListeners(this);
     await this.loginManager.init();
   }

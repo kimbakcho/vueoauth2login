@@ -45,6 +45,9 @@ export default class RedirectPage extends Vue {
   @Prop()
   state!: string;
 
+  @Prop()
+  reFreshTokenTimeout!: string;
+
   async mounted() {
     const code: string | (string | null)[] = this.$router.currentRoute.query.code;
     if(typeof(code) != "string"){
@@ -67,7 +70,7 @@ export default class RedirectPage extends Vue {
     const oAuth2ClientInfo = new OAuth2ClientInfo(this.clientId, this.reDirectUrl
         , this.scope, this.state);
     const loginManager = new LoginManager(tokenManager, this.loginPageUrl,
-        oAuth2ClientInfo, this.reFreshTokenUrl);
+        oAuth2ClientInfo, this.reFreshTokenUrl,Number(this.reFreshTokenTimeout));
     await loginManager.init();
     await this.$router.push({path: this.routerPushPage});
   }

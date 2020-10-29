@@ -45,6 +45,7 @@ const routes: Array<RouteConfig> = [
       reFreshTokenKey: Preference.reFreshTokenKey,
       scope: Preference.scope,
       state: Preference.state,
+      reFreshTokenTimeout: Preference.reFreshTokenTimeout
     })
   },
   {
@@ -86,6 +87,7 @@ export default class Preference {
     static reFreshTokenKey = "wRefreshToken";
     static scope = ["message.read","message.write"];
     static state = "123";
+    static reFreshTokenTimeout = "6300000";
 }
 ```
 
@@ -114,10 +116,9 @@ export default class App extends Vue implements LoginManagerListener,TokenManage
 
     tokenManager.addListeners(this);
 
-    const reFreshTokenLoopTime = 6400000;
 
     this.loginManager = new LoginManager(tokenManager ,
-        Preference.loginPageUrl, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,reFreshTokenLoopTime);
+        Preference.loginPageUrl, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,Number(Preference.reFreshTokenTimeout));
     
     this.loginManager.addListeners(this);
 
