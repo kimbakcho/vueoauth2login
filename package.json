@@ -1,6 +1,6 @@
 {
   "name": "vueoauth2login",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "main": "dist/vueoauth2login.common.js",
   "scripts": {

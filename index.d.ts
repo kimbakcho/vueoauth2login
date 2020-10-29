@@ -6,6 +6,7 @@ import OAuth2TokenResponse from "./src/components/OAuth2TokenResponse";
 import ReFreshTokenSch from './src/components/ReFreshToken/ReFreshTokenSch';
 import LoginManagerListener from './src/components/LoginManagerListener';
 import TokenManagerListener from './src/components/TokenManagerListener';
+import LoginManagerMakeUrl from "./src/components/LoginManagerMakeUrl";
 
 
 export  {
@@ -16,5 +17,6 @@ export  {
     OAuth2TokenResponse,
     ReFreshTokenSch,
     LoginManagerListener,
-    TokenManagerListener
+    TokenManagerListener,
+    LoginManagerMakeUrl
 }

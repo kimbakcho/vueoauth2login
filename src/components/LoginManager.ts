@@ -2,25 +2,26 @@ import TokenManager from './TokenManager';
 import OAuth2ClientInfo from './OAuth2ClientInfo';
 import ReFreshTokenSch from './ReFreshToken/ReFreshTokenSch';
 import LoginManagerListener  from './LoginManagerListener';
+import LoginManagerMakeUrl from './LoginManagerMakeUrl';
 
 
 export default class LoginManager {
     tokenManager: TokenManager;
-    loginPageUrl: string;
+    loginManagerMakeUrl: LoginManagerMakeUrl;
     oAuth2ClientInfo: OAuth2ClientInfo;
     reFreshTokenUrl: string;
     reFreshTokenLoopTime: number;
     private loginManagerListeners: LoginManagerListener[] = [];
 
     constructor(tokenManager: TokenManager,
-                loginPageUrl: string,
+                loginManagerMakeUrl: LoginManagerMakeUrl,
                 oAuth2ClientInfo: OAuth2ClientInfo,
                 reFreshTokenUrl: string,
                 reFreshTokenLoopTime: number
                 ) {
         this.tokenManager = tokenManager;
         this.oAuth2ClientInfo = oAuth2ClientInfo;
-        this.loginPageUrl = loginPageUrl;
+        this.loginManagerMakeUrl = loginManagerMakeUrl;
         this.reFreshTokenUrl = reFreshTokenUrl;
         this.reFreshTokenLoopTime = reFreshTokenLoopTime
     }
@@ -30,18 +31,13 @@ export default class LoginManager {
     }
 
     goLoginPage(): void{
-        let scope = ""
-        this.oAuth2ClientInfo.scope.forEach((x=>{
-            scope += `${x}+`
-        }));
 
-        scope = scope.substring(0,scope.length-1);
+        if(this.loginManagerMakeUrl == undefined){
+            throw new Error("loginManagerMakeUrl is null");
+        }
 
-        location.href = `${this.loginPageUrl}?`+
-                           `clientId=${this.oAuth2ClientInfo.clientId}`+
-                           `&redirectUri=${this.oAuth2ClientInfo.reDirectionUrl}`+
-                           `&scope=${scope}`+
-                           `&state=${this.oAuth2ClientInfo.state}`
+        location.href = this.loginManagerMakeUrl.makeUrl(this.oAuth2ClientInfo);
+
     }
 
     jwtUserInfo(): any{

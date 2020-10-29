@@ -90,8 +90,8 @@ export default class Preference {
     static clientId = "test";
 
     static reDirectUrl= process.env.NODE_ENV === 'production'
-        ? "http://10.20.10.114:8080/test/RedirectPage"
-        : "http://localhost:8080/RedirectPage";
+        ? "http://10.20.10.114:8080/test/RedirectPage/child"
+        : "http://localhost:8080/RedirectPage/child";
 
     static routerPushPage = "/";
     static accessTokenKey = "wAccessToken";
