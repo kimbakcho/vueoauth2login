@@ -24,9 +24,6 @@ export default class RedirectPage extends Vue implements LoginManagerMakeUrl{
   reFreshTokenUrl!: string;
 
   @Prop(String)
-  loginPageUrl!: string;
-
-  @Prop(String)
   clientId!: string;
 
   @Prop(String)

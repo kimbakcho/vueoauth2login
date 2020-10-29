@@ -40,14 +40,12 @@ const routes: Array<RouteConfig> = [
     component: RedirectPage,
     props: (route) => ({
       authUrl: Preference.authUrl,
-      reFreshTokenUrl: Preference.reFreshTokenUrl,
-      loginPageUrl: Preference.loginPageUrl,
+      reFreshTokenUrl: Preference.reFreshTokenKey,
       clientId: Preference.clientId,
       reDirectUrl: Preference.reDirectUrl,
       routerPushPage: Preference.routerPushPage,
       accessTokenKey: Preference.accessTokenKey,
       reFreshTokenKey: Preference.reFreshTokenKey,
-      scope: Preference.scope,
       state: Preference.state,
       reFreshTokenTimeout: Preference.reFreshTokenTimeout
     }),
@@ -115,7 +113,7 @@ import LoginManagerListener from "@/components/LoginManagerListener";
 import TokenManagerListener from "@/components/TokenManagerListener";
 
 @Component
-export default class App extends Vue implements LoginManagerListener,TokenManagerListener{
+export default class App extends Vue implements LoginManagerListener,TokenManagerListener,LoginManagerMakeUrl{
 
   oAuth2ClientInfo = new OAuth2ClientInfo(Preference.clientId, Preference.reDirectUrl
       , Preference.scope, Preference.state);
@@ -129,7 +127,7 @@ export default class App extends Vue implements LoginManagerListener,TokenManage
 
 
     this.loginManager = new LoginManager(tokenManager ,
-        Preference.loginPageUrl, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,Number(Preference.reFreshTokenTimeout));
+        this, this.oAuth2ClientInfo,Preference.reFreshTokenUrl,Number(Preference.reFreshTokenTimeout));
     
     this.loginManager.addListeners(this);
 
@@ -156,6 +154,22 @@ export default class App extends Vue implements LoginManagerListener,TokenManage
 
   onRefreshToken(refreshToken: string): void {
     console.log(`refreshToken = ${refreshToken}`);
+  }
+
+  makeUrl(oAuth2ClientInfo: OAuth2ClientInfo): string {
+    let scope = ""
+    this.oAuth2ClientInfo.scope.forEach((x => {
+      scope += `${x}+`
+    }));
+
+    scope = scope.substring(0, scope.length - 1);
+
+    return `${Preference.loginPageUrl}?` +
+        `clientId=${this.oAuth2ClientInfo.clientId}` +
+        `&redirectUri=${this.oAuth2ClientInfo.reDirectionUrl}` +
+        `&scope=${scope}` +
+        `&state=${this.oAuth2ClientInfo.state}`
+
   }
 
 }

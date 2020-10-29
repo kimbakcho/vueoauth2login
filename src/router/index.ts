@@ -28,7 +28,6 @@ const routes: Array<RouteConfig> = [
     props: (route) => ({
       authUrl: Preference.authUrl,
       reFreshTokenUrl: Preference.reFreshTokenKey,
-      loginPageUrl: Preference.loginPageUrl,
       clientId: Preference.clientId,
       reDirectUrl: Preference.reDirectUrl,
       routerPushPage: Preference.routerPushPage,
