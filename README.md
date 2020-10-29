@@ -1,4 +1,4 @@
-# wauthcomponent
+# vueOAuth2Login
 
 ## Project setup
 ```
