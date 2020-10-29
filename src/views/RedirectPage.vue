@@ -1,0 +1,80 @@
+<template>
+  <div>
+    테스트 리디렉션 페이지
+  </div>
+</template>
+
+<script lang="ts">
+import {Component, Prop, Vue} from "vue-property-decorator";
+import AccessTokenWithCode from '../components/AccessToken/AccessTokenWithCode';
+import TokenManager from '../components/TokenManager';
+import OAuth2ClientInfo from '../components/OAuth2ClientInfo';
+import LoginManager from '../components/LoginManager';
+
+
+@Component
+export default class RedirectPage extends Vue {
+
+  @Prop(String)
+  authUrl!: string;
+
+  @Prop(String)
+  reFreshTokenUrl!: string;
+
+  @Prop(String)
+  loginPageUrl!: string;
+
+  @Prop(String)
+  clientId!: string;
+
+  @Prop(String)
+  reDirectUrl!: string;
+
+  @Prop(String)
+  routerPushPage!: string;
+
+  @Prop(String)
+  accessTokenKey!: string;
+
+  @Prop(String)
+  reFreshTokenKey!: string;
+
+  @Prop()
+  scope!: string[];
+
+  @Prop()
+  state!: string;
+
+  async mounted() {
+    const code: string | (string | null)[] = this.$router.currentRoute.query.code;
+    if(typeof(code) != "string"){
+        return ;
+    }
+    const state: string | (string | null)[] = this.$router.currentRoute.query.state;
+    if(typeof(state) != "string"){
+      return ;
+    }
+
+    const accessTokenWithCode = new AccessTokenWithCode(this.authUrl, code);
+    const tokenManager = new TokenManager(this.accessTokenKey,this.reFreshTokenKey);
+    const oAuth2TokenResponse = await accessTokenWithCode.getAccessToken();
+    if (oAuth2TokenResponse.accessToken.tokenValue != undefined) {
+      tokenManager.accessToken = oAuth2TokenResponse.accessToken.tokenValue;
+    }
+    if (oAuth2TokenResponse.refreshToken.tokenValue != undefined) {
+      tokenManager.reFreshToken = oAuth2TokenResponse.refreshToken.tokenValue;
+    }
+    const oAuth2ClientInfo = new OAuth2ClientInfo(this.clientId, this.reDirectUrl
+        , this.scope, this.state);
+    const loginManager = new LoginManager(tokenManager, this.loginPageUrl,
+        oAuth2ClientInfo, this.reFreshTokenUrl);
+    await loginManager.init();
+    await this.$router.push({path: this.routerPushPage});
+  }
+
+}
+</script>
+
+<style scoped>
+
+</style>
