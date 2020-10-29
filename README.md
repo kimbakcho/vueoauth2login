@@ -111,7 +111,7 @@ import LoginManager from "@/components/LoginManager";
 import TokenManager from "@/components/TokenManager";
 import OAuth2ClientInfo from "@/components/OAuth2ClientInfo";
 import Preference from "@/Preference";
-import {LoginManagerListener} from "@/components/LoginManagerListener";
+import LoginManagerListener from "@/components/LoginManagerListener";
 import TokenManagerListener from "@/components/TokenManagerListener";
 
 @Component

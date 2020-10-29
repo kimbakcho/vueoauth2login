@@ -1,7 +1,7 @@
 import TokenManager from './TokenManager';
 import OAuth2ClientInfo from './OAuth2ClientInfo';
 import ReFreshTokenSch from './ReFreshToken/ReFreshTokenSch';
-import { LoginManagerListener } from './LoginManagerListener';
+import LoginManagerListener  from './LoginManagerListener';
 
 
 export default class LoginManager {
